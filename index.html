@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<style>
+    .dolar {
+        margin-left: auto;
+    margin-right: auto;
+    width: max-content;
+    font-size: 23px;
+    font-family: arial;
+    }
+
+    #dolar-valor {
+        display: block;
+    color: #fff;
+    margin-right: auto;
+    font-size: 22px;
+    background: green;
+    height: auto;
+    margin-left: auto;
+    padding: 20px;
+    font-family: arial;
+    width: max-content;
+    font-weight: 600;
+    }
+
+    #dolar-tempo {
+        display: block;
+    color: #fff;
+    margin-right: auto;
+    font-size: 22px;
+    background: green;
+    height: auto;
+    margin-left: auto;
+    padding: 20px;
+    font-family: arial;
+    width: max-content;
+    font-weight: 600;
+    }
+</style>
+<body>
+    
+<p class="dolar" ">a cotação do dolar atualmente esta em: </p>
+<span style="background-color: #379037;" id="dolar-valor">R$ </span>
+
+<p class="dolar" ">ultima atualização as: </p>
+<span style="background-color: #dc352d;"  id="dolar-tempo"></span>
+
+
+
+
+
+<script>
+function ajax(config){
+    const xhr = new XMLHttpRequest()
+    xhr.open(config.method, config.url, true)
+    xhr.onload = e => {
+        if (xhr.status === 200){
+            config.sucesso(xhr.response)
+            
+        }else if (xhr.status >= 400 ){
+            config.erro({
+                code: xhr.status,
+                Text: xhr.statusText
+            })
+        }
+    }
+    xhr.send()
+}
+
+ajax({
+    url: "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL",
+    method: "get",
+    sucesso(response){
+        const estados = JSON.parse(response)
+        console.log(estados.USDBRL.low)
+
+
+
+        $('#dolar-valor').append(estados.USDBRL.low)
+        $('#dolar-tempo').append(estados.USDBRL.create_date.slice(10,20))
+    }
+})
+
+</script>
+</body>
+</html>
