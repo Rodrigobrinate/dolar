@@ -1,3 +1,3 @@
-<h1>prinscreen</h1>
+<h1>Print Screen</h1>
 
 <img src="print.png">
